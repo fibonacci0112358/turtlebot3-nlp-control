@@ -1,0 +1,20 @@
+{
+    "gemini_api_key": "",
+    "language": "ja-JP",
+    "max_linear_velocity": 0.5,
+    "max_angular_velocity": 1.0,
+    "default_duration": 2.0,
+    "command_timeout": 10.0,
+    "enable_voice_recognition": false,
+    "robot_model": "waffle_pi",
+    "simulation_mode": true,
+    "gazebo_world": "turtlebot3_world",
+    "nlp_controller_rate": 10.0,
+    "emergency_stop_enabled": true,
+    "safety_bounds": {
+        "max_linear": 0.5,
+        "max_angular": 1.0,
+        "min_linear": -0.5,
+        "min_angular": -1.0
+    }
+} 
