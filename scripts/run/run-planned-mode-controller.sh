@@ -5,7 +5,7 @@
 echo "=== 計画動作モードコントローラー起動 ==="
 
 # コンテナ名の設定
-CONTAINER_NAME="charming_booth"
+CONTAINER_NAME="turtlebot3-nlp-container"
 
 # コンテナが起動しているか確認
 if ! docker ps --format "table {{.Names}}" | grep -q "$CONTAINER_NAME"; then
