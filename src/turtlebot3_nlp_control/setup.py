@@ -14,6 +14,8 @@ setup(
         ('share/' + package_name, ['package.xml']),
         # Launchファイルを追加
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
+        # Configファイルを追加
+        (os.path.join('share', package_name, 'config'), glob('config/*.yaml')),
         # libディレクトリを作成（ROS2の標準）
         (os.path.join('lib', package_name), []),
         # libexecディレクトリを作成（ROS2の標準）
@@ -33,6 +35,7 @@ setup(
             'cli_interface = turtlebot3_nlp_control.cli_interface:main',
             'planned_operation_mode = turtlebot3_nlp_control.planned_operation_mode:main',
             'planned_cli_interface = turtlebot3_nlp_control.planned_cli_interface:main',
+            'autonomous_mode = turtlebot3_nlp_control.autonomous_mode:main',
         ],
     },
 ) 

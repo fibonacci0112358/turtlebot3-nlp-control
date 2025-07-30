@@ -1,0 +1,86 @@
+# TurtleBot3 Default World Goals Configuration
+# This file defines goal points for autonomous navigation in the default TurtleBot3 world
+
+goals:
+  # Starting point (entrance)
+  entrance:
+    x: 3.0
+    y: -2.0
+    z: 0.0
+    description: "入口（開始地点）"
+    type: "start"
+    priority: 1
+    
+  # Map center point
+  map_center:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    description: "マップ中心"
+    type: "waypoint"
+    priority: 2
+    
+  # Near obstacle area
+  obstacle_near:
+    x: 1.5
+    y: 1.0
+    z: 0.0
+    description: "障害物近く"
+    type: "waypoint"
+    priority: 3
+    
+  # Near wall area
+  wall_near:
+    x: -1.5
+    y: 2.0
+    z: 0.0
+    description: "壁の近く"
+    type: "waypoint"
+    priority: 4
+    
+  # Exit point (goal)
+  exit:
+    x: -3.0
+    y: -1.5
+    z: 0.0
+    description: "出口（目標地点）"
+    type: "goal"
+    priority: 5
+
+# Goal selection configuration
+goal_selection:
+  mode: "sequential"  # "sequential", "random", "direct", "explore"
+  enable_cycling: true
+  timeout_seconds: 300
+  reach_threshold: 0.5  # meters
+  approach_speed: 0.2   # m/s
+
+# Safety parameters
+safety:
+  min_safe_distance: 0.3      # meters
+  emergency_stop_distance: 0.1 # meters
+  max_obstacle_angle: 30       # degrees (±30 degrees)
+  
+# Movement parameters  
+movement:
+  max_linear_velocity: 0.5    # m/s
+  max_angular_velocity: 1.0   # rad/s
+  goal_approach_speed: 0.2    # m/s
+  default_duration: 3.0       # seconds
+  wait_duration: 1.0          # seconds
+
+# Navigation preferences for default world
+navigation:
+  preferred_paths:
+    - start: "entrance"
+      end: "map_center"
+      waypoints: []
+    - start: "map_center"
+      end: "obstacle_near"
+      waypoints: []
+    - start: "obstacle_near"
+      end: "wall_near"
+      waypoints: []
+    - start: "wall_near"
+      end: "exit"
+      waypoints: []
