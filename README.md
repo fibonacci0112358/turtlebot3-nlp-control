@@ -31,7 +31,59 @@
 
 ## 開発状況
 
-現在、プロジェクトは仕様定義段階です。実装はこれから開始予定です。
+現在、単純操作モード（1）と計画動作モード（2）の実装が完了しています。
+
+### 実装済み機能
+- ✅ 単純操作モード（Gemini API統合）
+- ✅ 計画動作モード（複数動作の計画・順次実行）
+- ✅ Docker環境での動作
+- ✅ フォールバック機能
+- ✅ テストスクリプト
+- ✅ システム管理スクリプト
+
+### 使用方法
+
+#### 1. ビルド
+```bash
+bash docker-build.sh
+```
+
+#### 2. システム起動
+```bash
+# コンテナ起動 + Gazebo自動起動（推奨）
+bash scripts/run/run-demo.sh
+
+# 単純操作モード起動
+bash scripts/run/run-simple-mode-controller.sh
+
+# 計画動作モード起動
+bash scripts/run/run-planned-mode-controller.sh
+
+# 計画動作モードCLIインターフェース起動
+bash scripts/run/run-planned-cli-interface.sh
+```
+
+#### 3. デバッグ用
+```bash
+# Gazebo再起動（デバッグ用）
+bash scripts/run/run-gazebo-only.sh
+```
+
+#### 4. 状態確認・停止
+```bash
+# 単純操作モード
+bash scripts/run/run-simple-mode-status.sh
+bash scripts/run/run-stop-simple-mode.sh
+
+# 計画動作モード
+bash scripts/run/run-planned-mode-status.sh
+bash scripts/run/run-stop-planned-mode.sh
+```
+
+詳細な使用方法は以下を参照してください：
+- 単純操作モード: `src/turtlebot3_nlp_control/README_SIMPLE_MODE.md`
+- 計画動作モード: `src/turtlebot3_nlp_control/README_PLANNED_MODE.md`
+- 計画動作モードCLI: `src/turtlebot3_nlp_control/README_PLANNED_CLI.md`
 
 ## ライセンス
 

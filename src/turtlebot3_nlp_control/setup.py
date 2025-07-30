@@ -29,6 +29,10 @@ setup(
     entry_points={
         'console_scripts': [
             'nlp_controller = turtlebot3_nlp_control.nlp_controller:main',
+            'test_simple_mode = turtlebot3_nlp_control.test_simple_mode:main',
+            'cli_interface = turtlebot3_nlp_control.cli_interface:main',
+            'planned_operation_mode = turtlebot3_nlp_control.planned_operation_mode:main',
+            'planned_cli_interface = turtlebot3_nlp_control.planned_cli_interface:main',
         ],
     },
 ) 

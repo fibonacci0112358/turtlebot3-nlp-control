@@ -15,15 +15,8 @@ fi
 echo "✅ コンテナID: $CONTAINER_ID"
 echo ""
 
-# スクリプトをコンテナにコピー
-echo "1. スクリプトをコンテナにコピー中..."
-docker cp stop-nlp-controller.sh $CONTAINER_ID:/workspace/stop-nlp-controller.sh
-docker exec $CONTAINER_ID chmod +x /workspace/stop-nlp-controller.sh
-echo "✅ スクリプトコピー完了"
-echo ""
-
 # コンテナ内でスクリプトを実行
-echo "2. コンテナ内でNLP Controller停止スクリプトを実行中..."
+echo "1. コンテナ内でNLP Controller停止スクリプトを実行中..."
 echo ""
 
 docker exec $CONTAINER_ID bash -c "cd /workspace && ./stop-nlp-controller.sh" 

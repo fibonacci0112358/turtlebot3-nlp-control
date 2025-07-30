@@ -10,6 +10,7 @@ from typing import Optional
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
+from geometry_msgs.msg import Twist
 
 from .gemini_client import GeminiClient
 from .command_interpreter import CommandInterpreter
@@ -43,6 +44,11 @@ class CLIInterface(Node):
         self.nlp_command_publisher = self.create_publisher(
             String, 
             '/nlp_command', 
+            10
+        )
+        self.cmd_vel_publisher = self.create_publisher(
+            Twist, 
+            '/cmd_vel', 
             10
         )
         
@@ -161,6 +167,9 @@ class CLIInterface(Node):
                 # 結果の表示
                 self._show_command_result(command_data, twist_msg)
                 
+                # ロボット制御の実行
+                self._execute_robot_command(twist_msg, command_data.get('duration', 2.0))
+                
             else:
                 # フォールバック処理（キーワードベース）
                 self.logger.info(f"フォールバックモードでコマンドを処理: {command}")
@@ -218,6 +227,41 @@ class CLIInterface(Node):
         print(f"角速度: {twist_msg.angular.z} rad/s")
         print("========================")
         
+    def _execute_robot_command(self, twist_msg: Twist, duration: float):
+        """
+        ロボット制御コマンドの実行
+        
+        Args:
+            twist_msg: Twistメッセージ
+            duration: 実行時間（秒）
+        """
+        try:
+            self.logger.info(f"Executing robot command: linear.x={twist_msg.linear.x}, angular.z={twist_msg.angular.z}, duration={duration}")
+            
+            # 指定された時間だけTwistメッセージを送信
+            start_time = time.time()
+            while time.time() - start_time < duration:
+                self.cmd_vel_publisher.publish(twist_msg)
+                time.sleep(0.1)  # 10Hzで送信
+                
+            # 停止コマンドを送信
+            stop_msg = Twist()
+            stop_msg.linear.x = 0.0
+            stop_msg.linear.y = 0.0
+            stop_msg.linear.z = 0.0
+            stop_msg.angular.x = 0.0
+            stop_msg.angular.y = 0.0
+            stop_msg.angular.z = 0.0
+            
+            self.cmd_vel_publisher.publish(stop_msg)
+            self.logger.info("Robot command execution completed")
+            
+        except Exception as e:
+            self.logger.error(f"Error executing robot command: {str(e)}")
+            # エラー時は停止コマンドを送信
+            stop_msg = Twist()
+            self.cmd_vel_publisher.publish(stop_msg)
+        
 
         
     def _show_status(self):
@@ -239,8 +283,22 @@ class CLIInterface(Node):
     def _emergency_stop(self):
         """緊急停止"""
         print("緊急停止を実行します")
-        # ここでロボットの停止処理を実行
-        self.logger.warning("Emergency stop executed")
+        try:
+            # 停止コマンドを送信
+            stop_msg = Twist()
+            stop_msg.linear.x = 0.0
+            stop_msg.linear.y = 0.0
+            stop_msg.linear.z = 0.0
+            stop_msg.angular.x = 0.0
+            stop_msg.angular.y = 0.0
+            stop_msg.angular.z = 0.0
+            
+            self.cmd_vel_publisher.publish(stop_msg)
+            self.logger.warning("Emergency stop executed")
+            print("✅ 緊急停止コマンドを送信しました")
+        except Exception as e:
+            self.logger.error(f"Error during emergency stop: {str(e)}")
+            print(f"❌ 緊急停止エラー: {str(e)}")
         
     def _show_help(self):
         """ヘルプメッセージの表示"""

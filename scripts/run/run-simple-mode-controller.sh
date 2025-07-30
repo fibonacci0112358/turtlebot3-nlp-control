@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== NLP Controller & CLI Interface起動 (Docker Exec) ==="
+echo "=== 単純操作モード コントローラー起動 (Docker Exec) ==="
 echo ""
 
 # コンテナIDを取得
@@ -16,8 +16,8 @@ echo "✅ コンテナID: $CONTAINER_ID"
 echo ""
 
 # コンテナ内でスクリプトを実行
-echo "1. コンテナ内でNLP Controller起動スクリプトを実行中..."
-echo "注意: このスクリプトは既存のNLP Controllerを確認してから起動します"
+echo "1. コンテナ内で単純操作モード起動スクリプトを実行中..."
+echo "注意: このスクリプトは既存のコントローラーを確認してから起動します"
 echo ""
 
-docker exec -it $CONTAINER_ID bash -c "cd /workspace && ./start-nlp-controller.sh" 
+docker exec -it $CONTAINER_ID bash -c "cd /workspace && ./start-simple-mode-controller.sh" 

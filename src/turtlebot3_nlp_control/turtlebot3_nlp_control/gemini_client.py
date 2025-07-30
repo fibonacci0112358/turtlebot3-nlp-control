@@ -34,7 +34,7 @@ class GeminiClient:
         
         # モデルの初期化
         try:
-            self.model = genai.GenerativeModel('gemini-pro')
+            self.model = genai.GenerativeModel('gemini-2.5-flash')
             self.logger.info("Gemini API client initialized successfully")
         except Exception as e:
             self.logger.error(f"Failed to initialize Gemini API client: {str(e)}")

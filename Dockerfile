@@ -183,13 +183,43 @@ RUN echo '#!/bin/bash\nsource /opt/ros/humble/setup.bash\nsource /workspace/inst
 COPY scripts/start/start-turtlebot3-nlp-smart.sh /workspace/start-turtlebot3-nlp-smart.sh
 COPY scripts/start/start-gazebo-only.sh /workspace/start-gazebo-only.sh
 COPY scripts/start/start-nlp-controller.sh /workspace/start-nlp-controller.sh
+COPY scripts/start/start-simple-mode-controller.sh /workspace/start-simple-mode-controller.sh
+COPY scripts/start/start-planned-mode-controller.sh /workspace/start-planned-mode-controller.sh
+COPY scripts/start/start-planned-cli-interface.sh /workspace/start-planned-cli-interface.sh
 COPY scripts/stop/stop-gazebo.sh /workspace/stop-gazebo.sh
 COPY scripts/stop/stop-nlp-controller.sh /workspace/stop-nlp-controller.sh
+COPY scripts/stop/stop-simple-mode.sh /workspace/stop-simple-mode.sh
+COPY scripts/stop/stop-planned-mode.sh /workspace/stop-planned-mode.sh
 COPY scripts/status/status.sh /workspace/status.sh
-RUN chmod +x /workspace/start-turtlebot3-nlp-smart.sh /workspace/start-gazebo-only.sh /workspace/start-nlp-controller.sh /workspace/stop-gazebo.sh /workspace/stop-nlp-controller.sh /workspace/status.sh
+COPY scripts/status/status-simple-mode.sh /workspace/status-simple-mode.sh
+COPY scripts/status/status-planned-mode.sh /workspace/status-planned-mode.sh
+RUN chmod +x /workspace/start-turtlebot3-nlp-smart.sh /workspace/start-gazebo-only.sh /workspace/start-nlp-controller.sh /workspace/start-simple-mode-controller.sh /workspace/start-planned-mode-controller.sh /workspace/start-planned-cli-interface.sh /workspace/stop-gazebo.sh /workspace/stop-nlp-controller.sh /workspace/stop-simple-mode.sh /workspace/stop-planned-mode.sh /workspace/status.sh /workspace/status-simple-mode.sh /workspace/status-planned-mode.sh
 
 # .bashrcの設定
-RUN echo '\nsource /opt/ros/humble/setup.bash\nsource /workspace/install/setup.bash\nsource /root/.gazebo/setup_gazebo.bash\nexport TURTLEBOT3_MODEL=waffle_pi\nexport GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/opt/ros/humble/share/turtlebot3_gazebo/models\nexport GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH:/opt/ros/humble/share/turtlebot3_gazebo/worlds\nexport GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:/opt/ros/humble/lib\nexport GAZEBO_MASTER_URI=http://localhost:11345\nexport LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/lib\nexport PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native\nalias nlp_controller="python3 -m turtlebot3_nlp_control.nlp_controller"\nalias start-smart="./start-turtlebot3-nlp-smart.sh"\nalias start-gazebo="./start-gazebo-only.sh"\nalias start-nlp="./start-nlp-controller.sh"\nalias stop-gazebo="./stop-gazebo.sh"\nalias stop-nlp="./stop-nlp-controller.sh"\nalias status="./status.sh"' >> /root/.bashrc
+RUN echo 'source /opt/ros/humble/setup.bash' >> /root/.bashrc && \
+    echo 'source /workspace/install/setup.bash' >> /root/.bashrc && \
+    echo 'source /root/.gazebo/setup_gazebo.bash' >> /root/.bashrc && \
+    echo 'export TURTLEBOT3_MODEL=waffle_pi' >> /root/.bashrc && \
+    echo 'export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:/opt/ros/humble/share/turtlebot3_gazebo/models' >> /root/.bashrc && \
+    echo 'export GAZEBO_RESOURCE_PATH=$GAZEBO_RESOURCE_PATH:/opt/ros/humble/share/turtlebot3_gazebo/worlds' >> /root/.bashrc && \
+    echo 'export GAZEBO_PLUGIN_PATH=$GAZEBO_PLUGIN_PATH:/opt/ros/humble/lib' >> /root/.bashrc && \
+    echo 'export GAZEBO_MASTER_URI=http://localhost:11345' >> /root/.bashrc && \
+    echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/lib' >> /root/.bashrc && \
+    echo 'export PULSE_SERVER=unix:${XDG_RUNTIME_DIR}/pulse/native' >> /root/.bashrc && \
+    echo 'alias nlp_controller="python3 -m turtlebot3_nlp_control.nlp_controller"' >> /root/.bashrc && \
+    echo 'alias start-smart="./start-turtlebot3-nlp-smart.sh"' >> /root/.bashrc && \
+    echo 'alias start-gazebo="./start-gazebo-only.sh"' >> /root/.bashrc && \
+    echo 'alias start-nlp="./start-nlp-controller.sh"' >> /root/.bashrc && \
+    echo 'alias start-simple="./start-simple-mode-controller.sh"' >> /root/.bashrc && \
+    echo 'alias start-planned="./start-planned-mode-controller.sh"' >> /root/.bashrc && \
+    echo 'alias start-planned-cli="./start-planned-cli-interface.sh"' >> /root/.bashrc && \
+    echo 'alias stop-gazebo="./stop-gazebo.sh"' >> /root/.bashrc && \
+    echo 'alias stop-nlp="./stop-nlp-controller.sh"' >> /root/.bashrc && \
+    echo 'alias stop-simple="./stop-simple-mode.sh"' >> /root/.bashrc && \
+    echo 'alias stop-planned="./stop-planned-mode.sh"' >> /root/.bashrc && \
+    echo 'alias status="./status.sh"' >> /root/.bashrc && \
+    echo 'alias status-simple="./status-simple-mode.sh"' >> /root/.bashrc && \
+    echo 'alias status-planned="./status-planned-mode.sh"' >> /root/.bashrc
 
 # エントリーポイントを設定
 ENTRYPOINT ["/entrypoint.sh"]
